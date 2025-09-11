@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Briefing - Projeto de Interiores</title>
+  <style>
+    :root{--accent:#2b7a78;--muted:#666;--card:#fff;--bg:#f5f7f8}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial; margin:0; background:var(--bg); color:#111}
+    header{background:linear-gradient(90deg,var(--accent),#3aa6a6); color:white; padding:28px 20px}
+    header h1{margin:0;font-size:28px;text-align:center}
+    main{max-width:980px;margin:22px auto;padding:18px}
+    .card{background:var(--card);border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 6px 18px rgba(27,31,35,0.06)}
+    label{display:block;font-weight:600;margin-bottom:6px}
+    .muted{color:var(--muted);font-weight:500}
+    input[type=text],input[type=email],input[type=number],select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e3e6e8;margin-bottom:12px}
+    textarea{min-height:120px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}
+    button{background:var(--accent);color:white;padding:10px 14px;border:none;border-radius:10px;cursor:pointer}
+    .secondary{background:#e9f4f3;color:#0b3;box-shadow:none}
+    .small{font-size:13px;padding:8px 10px}
+    footer{max-width:980px;margin:8px auto 40px;padding:10px;text-align:center;color:var(--muted)}
+    @media(max-width:760px){.grid{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Briefing para Projeto de Interiores</h1>
+  </header>
+
+  <main>
+    <form id="briefForm" class="card">
+      <section>
+        <h2>1) Informações do Cliente</h2>
+        <div class="grid">
+          <div>
+            <label>Nome completo</label>
+            <input type="text" id="cliente_nome" placeholder="Ex.: João Silva" required>
+          </div>
+          <div>
+            <label>E-mail</label>
+            <input type="email" id="cliente_email" placeholder="Ex.: cliente@ex.com" required>
+          </div>
+        </div>
+        <div class="grid">
+          <div>
+            <label>Telefone / WhatsApp</label>
+            <input type="text" id="cliente_telefone" placeholder="(00) 9 9999-9999">
+          </div>
+          <div>
+            <label>Endereço do projeto</label>
+            <input type="text" id="endereco" placeholder="Rua, número, bairro, cidade">
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>2) Dados do Projeto</h2>
+        <div class="grid">
+          <div>
+            <label>Nome do Projeto</label>
+            <input type="text" id="projeto_nome" placeholder="Ex.: Apartamento - Sala / Quarto">
+          </div>
+          <div>
+            <label>Tipo</label>
+            <select id="projeto_tipo">
+              <option>Residencial</option>
+              <option>Comercial</option>
+              <option>Corporativo</option>
+              <option>Evento / Pop-up</option>
+              <option>Outro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div>
+            <label>Área aproximada (m²)</label>
+            <input type="number" id="area" placeholder="Ex.: 45">
+          </div>
+          <div>
+            <label>Quartos / Ambientes</label>
+            <input type="text" id="ambientes" placeholder="Ex.: Sala, cozinha, 2 quartos">
+          </div>
+          <div>
+            <label>Prazo desejado</label>
+            <input type="text" id="prazo" placeholder="Ex.: 60 dias, ASAP, Março/2026">
+          </div>
+        </div>
+
+        <label>Resumo do escopo (o que incluir/desconsiderar)</label>
+        <textarea id="escopo" placeholder="Descreva o escopo, por exemplo: layout, projeto de luminotécnica, mobiliário, especificação de materiais etc."></textarea>
+      </section>
+
+      <section>
+        <h2>3) Estilo, referências e imagens</h2>
+        <label>Estilos preferidos (marque / descreva)</label>
+        <input type="text" id="estilo" placeholder="Ex.: Minimalista, Industrial, Escandinavo, Clássico">
+
+        <label>Cores e materiais preferidos / indesejados</label>
+        <input type="text" id="cores" placeholder="Ex.: tons neutros, madeira clara, sem mármore">
+
+        <label>Upload de imagens / planta baixa (opcional)</label>
+        <input type="file" id="fotos" accept="image/*,application/pdf" multiple>
+        <p class="muted small">As imagens serão incorporadas ao PDF de briefing quando for possível. PDFs enviados podem não ser convertidos em imagem — baixe e revise o PDF antes de enviar por e-mail.</p>
+      </section>
+
+      <section>
+        <h2>4) Orçamento e decisões</h2>
+        <div class="grid">
+          <div>
+            <label>Orçamento estimado (R$)</label>
+            <input type="text" id="orcamento" placeholder="Ex.: 25.000">
+          </div>
+          <div>
+            <label>Responsável pela compra/decisão</label>
+            <input type="text" id="responsavel" placeholder="Ex.: Cliente / Escritório">
+          </div>
+        </div>
+
+        <label>Restrições (acesso, horários de obra, condomínio)</label>
+        <textarea id="restricoes" placeholder="Descreva restrições importantes"></textarea>
+      </section>
+
+      <section>
+        <h2>5) Observações finais</h2>
+        <textarea id="observacoes" placeholder="Informações extras, referências de lojas, prazos de pagamento, etc."></textarea>
+      </section>
+
+      <div style="display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:8px">
+        <div class="muted">PDF será gerado com todas as informações preenchidas.</div>
+        <div class="actions">
+          <button type="button" id="gerarPdf">Gerar PDF</button>
+          <button type="button" id="baixarPdf" class="small secondary">Baixar PDF</button>
+          <button type="button" id="enviarEmail" class="small">Enviar por e‑mail</button>
+        </div>
+      </div>
+
+    </form>
+
+    <div id="pdfPreviewArea" style="display:none"></div>
+
+    <div class="card">
+      <h3>Como funciona</h3>
+      <ol>
+        <li>Preencha o formulário acima e clique em <strong>Gerar PDF</strong>.</li>
+        <li>O PDF será criado no navegador. Use <strong>Baixar PDF</strong> para salvar localmente.</li>
+        <li>Botão <strong>Enviar por e‑mail</strong> abre seu cliente de e‑mail com assunto e corpo prontos. Anexar o PDF manualmente é necessário (limitação de browsers).</li>
+        <li>Se você quiser envio automático sem anexar manualmente, veja o comentário no código sobre integração com EmailJS (requer configurar conta e IDs).</li>
+      </ol>
+    </div>
+
+  </main>
+
+  <footer>
+    Desenvolvido para uso de briefing — personalize o e-mail destino em <code>const EMAIL_DEST = 'gustavoalvesdesign@gmail.com'</code> dentro do arquivo.
+  </footer>
+
+  <!-- Scripts: usa jsPDF e html2canvas via CDN. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- Optional: EmailJS for automatic send (requires account). Uncomment and configure if desejar envio automático.
+  <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+  -->
+  <script>
+    // Altere apenas esta constante se quiser mudar o e-mail de destino por padrão
+    const EMAIL_DEST = 'gustavoalvesdesign@gmail.com';
+
+    // Estado para armazenar o PDF gerado em base64
+    let generatedPdfBase64 = null;
+
+    function coletarDados() {
+      const fotos = document.getElementById('fotos').files;
+      const fotosData = [];
+      // Convert images to dataURLs (max 5 images to avoid huge PDFs)
+      const maxImages = 5;
+      const promises = [];
+      for (let i=0;i<Math.min(fotos.length,maxImages);i++){
+        const f = fotos[i];
+        promises.push(new Promise((res)=>{
+          const reader = new FileReader();
+          reader.onload = e=>res({name:f.name,dataUrl:e.target.result});
+          reader.readAsDataURL(f);
+        }));
+      }
+
+      return Promise.all(promises).then(imgs=>({
+        cliente_nome: document.getElementById('cliente_nome').value,
+        cliente_email: document.getElementById('cliente_email').value,
+        cliente_telefone: document.getElementById('cliente_telefone').value,
+        endereco: document.getElementById('endereco').value,
+        projeto_nome: document.getElementById('projeto_nome').value,
+        projeto_tipo: document.getElementById('projeto_tipo').value,
+        area: document.getElementById('area').value,
+        ambientes: document.getElementById('ambientes').value,
+        prazo: document.getElementById('prazo').value,
+        escopo: document.getElementById('escopo').value,
+        estilo: document.getElementById('estilo').value,
+        cores: document.getElementById('cores').value,
+        orcamento: document.getElementById('orcamento').value,
+        responsavel: document.getElementById('responsavel').value,
+        restricoes: document.getElementById('restricoes').value,
+        observacoes: document.getElementById('observacoes').value,
+        fotos: imgs
+      }));
+    }
+
+    async function montarHtmlResumo(dados){
+      const lines = [];
+      lines.push(`<h1>Briefing — ${escapeHtml(dados.projeto_nome || 'Projeto sem título')}</h1>`);
+      lines.push(`<p><strong>Cliente:</strong> ${escapeHtml(dados.cliente_nome || '')} — ${escapeHtml(dados.cliente_email || '')} — ${escapeHtml(dados.cliente_telefone || '')}</p>`);
+      lines.push(`<p><strong>Endereço:</strong> ${escapeHtml(dados.endereco || '')}</p>`);
+      lines.push(`<h2>Dados do projeto</h2>`);
+      lines.push(`<p><strong>Tipo:</strong> ${escapeHtml(dados.projeto_tipo)}</p>`);
+      lines.push(`<p><strong>Área:</strong> ${escapeHtml(dados.area)} m² — <strong>Ambientes:</strong> ${escapeHtml(dados.ambientes)}</p>`);
+      lines.push(`<p><strong>Prazo:</strong> ${escapeHtml(dados.prazo)}</p>`);
+      lines.push(`<h3>Escopo</h3><p>${nl2br(escapeHtml(dados.escopo))}</p>`);
+      lines.push(`<h3>Estilo & Materiais</h3><p><strong>Estilos:</strong> ${escapeHtml(dados.estilo)} — <strong>Cores:</strong> ${escapeHtml(dados.cores)}</p>`);
+      lines.push(`<h3>Orçamento & Responsáveis</h3><p><strong>Orçamento:</strong> R$ ${escapeHtml(dados.orcamento)} — <strong>Decisor:</strong> ${escapeHtml(dados.responsavel)}</p>`);
+      lines.push(`<h3>Restrições</h3><p>${nl2br(escapeHtml(dados.restricoes))}</p>`);
+      lines.push(`<h3>Observações</h3><p>${nl2br(escapeHtml(dados.observacoes))}</p>`);
+
+      if (dados.fotos && dados.fotos.length) {
+        lines.push('<h3>Imagens enviadas</h3>');
+        dados.fotos.forEach((f,i)=>{
+          // To avoid huge PDFs we will include images as <img> scaled in the PDF container
+          lines.push(`<p>${escapeHtml(f.name)}</p><img src="${f.dataUrl}" style="max-width:520px;max-height:360px;margin-bottom:12px;"/>`);
+        });
+      }
+
+      // Create a container for pdf rendering
+      const container = document.createElement('div');
+      container.style.padding = '22px';
+      container.style.fontFamily = 'Arial, Helvetica, sans-serif';
+      container.style.color = '#111';
+      container.innerHTML = lines.join('\n');
+      return container;
+    }
+
+    // Helper to escape HTML
+    function escapeHtml(s){ if(!s) return ''; return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+    function nl2br(s){ return (s||'').replaceAll('\n','<br/>'); }
+
+    document.getElementById('gerarPdf').addEventListener('click', async ()=>{
+      const dados = await coletarDados();
+      const container = await montarHtmlResumo(dados);
+      // append to hidden area
+      const preview = document.getElementById('pdfPreviewArea');
+      preview.innerHTML = '';
+      preview.appendChild(container);
+      preview.style.display = 'block';
+
+      // Use html2canvas then jsPDF to create PDF
+      const originalWidth = container.scrollWidth;
+      await html2canvas(container, {scale:2, useCORS:true}).then(canvas=>{
+        const imgData = canvas.toDataURL('image/jpeg',0.95);
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({orientation:'portrait', unit:'px', format:[canvas.width, canvas.height]});
+        pdf.addImage(imgData,'JPEG',0,0,canvas.width,canvas.height);
+        generatedPdfBase64 = pdf.output('datauristring'); // data URI string
+        // store a blob for download
+        window._latestPdfBlob = pdf.output('blob');
+        alert('PDF gerado com sucesso. Use "Baixar PDF" para salvar, ou "Enviar por e‑mail" para abrir seu cliente de e‑mail.');
+      }).catch(err=>{ console.error(err); alert('Erro ao gerar PDF: '+err.message) });
+    });
+
+    document.getElementById('baixarPdf').addEventListener('click', ()=>{
+      if (!window._latestPdfBlob){ alert('Primeiro gere o PDF clicando em "Gerar PDF".'); return; }
+      const url = URL.createObjectURL(window._latestPdfBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      const nomeProjeto = document.getElementById('projeto_nome').value || 'briefing_projeto';
+      a.download = (nomeProjeto.replaceAll('\\s','_') || 'briefing') + '.pdf';
+      document.body.appendChild(a); a.click(); a.remove();
+    });
+
+    document.getElementById('enviarEmail').addEventListener('click', async ()=>{
+      // If automatic email via EmailJS is configured (see below), we could send automatically.
+      // By default, open mailto with prefilled subject and body, and instruct user to anexar o PDF.
+
+      const dados = await coletarDados();
+      const subject = encodeURIComponent('Briefing: ' + (dados.projeto_nome || 'Projeto'));
+      const bodyLines = [];
+      bodyLines.push('Segue o briefing do projeto:\n');
+      bodyLines.push('Cliente: ' + (dados.cliente_nome || '') + ' — ' + (dados.cliente_email || ''));
+      bodyLines.push('Endereço: ' + (dados.endereco || ''));
+      bodyLines.push('Prazo: ' + (dados.prazo || ''));
+      bodyLines.push('\nOBS: Anexe o PDF do briefing gerado neste site antes de enviar (limitação de browsers).');
+
+      const body = encodeURIComponent(bodyLines.join('\n'));
+      const mailto = `mailto:${EMAIL_DEST}?subject=${subject}&body=${body}`;
+      window.location.href = mailto;
+
+      /*
+        PARA ENVIO AUTOMÁTICO (opcional):
+        - Crie conta no https://www.emailjs.com/
+        - Configure serviceID, templateID e userID
+        - Permita anexos no template (emailjs aceita attachments via base64)
+        - Descomente a tag <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script> no topo
+        - Preencha os IDs abaixo e chame sendEmailAutomatico(base64string)
+
+        Exemplo de uso (não ativado por padrão):
+
+        function sendEmailAutomatico(base64pdf){
+          // inicializar EmailJS: emailjs.init('YOUR_USER_ID');
+          const serviceID = 'YOUR_SERVICE_ID';
+          const templateID = 'YOUR_TEMPLATE_ID';
+          const userID = 'YOUR_USER_ID';
+          emailjs.init(userID);
+          const templateParams = {
+            to_email: EMAIL_DEST,
+            project_name: document.getElementById('projeto_nome').value,
+            message: 'Segue briefing em anexo.',
+            attachment: base64pdf // dependerá de como template esteja configurado
+          };
+          emailjs.send(serviceID, templateID, templateParams)
+            .then(()=>alert('E-mail enviado com sucesso via EmailJS'))
+            .catch(err=>alert('Erro ao enviar e-mail: '+err.text));
+        }
+
+        Para converter generatedPdfBase64 (dataURI) em base64 puro:
+        const base64only = generatedPdfBase64.split(',')[1];
+        sendEmailAutomatico(base64only);
+      */
+    });
+
+  </script>
+</body>
+</html>
