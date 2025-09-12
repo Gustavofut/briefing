@@ -1,417 +1,79 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Briefing - Gustavo Alves Design</title>
-
-<!-- Bibliotecas para gerar PDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-<style>
-  :root{
-    --black:#0b0b0c;
-    --white:#ffffff;
-    --navy:#0f2940;
-    --pastel:#bcd3e6;
-    --gray:#e6e9ee;
-    --muted:#8b92a0;
-    --container-max:1100px;
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    background:linear-gradient(180deg,var(--white),#fbfdff);
-    color:var(--black);
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    padding:40px 20px;
-    display:flex;
-    justify-content:center;
-    font-size:15px;
-  }
-  .wrap{
-    width:100%;
-    max-width:var(--container-max);
-    background:var(--white);
-    border-radius:14px;
-    box-shadow:0 8px 30px rgba(11,11,12,0.08);
-    padding:28px;
-    display:grid;
-    grid-template-columns: 1fr 420px;
-    gap:24px;
-  }
-  header{
-    grid-column:1 / -1;
-    display:flex;
-    align-items:center;
-    gap:16px;
-    border-bottom:1px solid #f0f2f6;
-    padding-bottom:18px;
-    margin-bottom:6px;
-  }
-  .brand{
-    width:54px;height:54px;border-radius:10px;
-    background:linear-gradient(135deg,var(--navy),var(--pastel));
-    display:flex;align-items:center;justify-content:center;
-    color:var(--white);font-weight:700;font-size:18px;
-    box-shadow: 0 6px 18px rgba(15,41,64,0.12);
-  }
-  header h1{
-    margin:0;font-size:20px;color:var(--navy);
-  }
-  header p{margin:0;color:var(--muted);font-size:13px}
-
-  form{padding-right:4px;overflow:auto;max-height:76vh}
-  label.section{
-    display:block;margin-top:12px;margin-bottom:6px;font-weight:600;color:var(--navy);
-  }
-  .row{display:flex;gap:10px;flex-wrap:wrap}
-  .field{
-    background:linear-gradient(180deg,#fff,#fbfeff);
-    border:1px solid #eff3f8;padding:12px;border-radius:10px;
-    min-width:0;flex:1;
-  }
-  input[type="text"], input[type="email"], textarea, select {
-    width:100%;border:0;outline:none;background:transparent;font-size:14px;color:var(--black);
-  }
-  textarea{min-height:86px; resize:vertical; font-size:14px}
-  .small{font-size:13px;color:var(--muted);margin-top:6px}
-  .options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
-  .option{
-    border-radius:10px;padding:10px;border:1px solid #eef4fb;background:#fff;cursor:pointer;
-    display:flex;align-items:flex-start;gap:10px;
-  }
-  .option input{margin-top:3px}
-  .controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-  .btn{
-    padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600;
-    box-shadow:0 6px 18px rgba(11,11,12,0.06);
-  }
-  .btn-primary{background:var(--navy);color:var(--white)}
-  .btn-ghost{background:transparent;border:1px solid #e2e7ee;color:var(--navy)}
-  .panel{
-    background:linear-gradient(180deg,#fbfdff,#f7fbff);border-radius:12px;padding:16px;
-    border:1px solid #eef3f8; max-height:76vh; overflow:auto;
-  }
-  .summary h3{margin:0 0 8px 0;color:var(--navy)}
-  .chip{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--gray);font-weight:600;margin:6px 6px 0 0}
-  footer{grid-column:1 / -1;margin-top:12px;color:var(--muted);font-size:13px;text-align:center}
-  @media (max-width:980px){
-    .wrap{grid-template-columns:1fr; padding:18px}
-    form{max-height:none}
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>Formulário de Auditoria</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+    input, select, textarea {
+      width: 100%; padding: 8px; margin-top: 5px;
+      border: 1px solid #ccc; border-radius: 5px;
+    }
+    button {
+      margin-top: 20px;
+      background: #007BFF; color: white;
+      padding: 10px; border: none; border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover { background: #0056b3; }
+  </style>
 </head>
 <body>
-  <div class="wrap" role="main" aria-labelledby="title">
-    <header>
-      <div class="brand">GAD</div>
-      <div>
-        <h1 id="title">Briefing Rápido — Gustavo Alves Design</h1>
-        <p>Formulário objetivo para captar clientes e gerar briefing e orçamento.</p>
-      </div>
-    </header>
+  <form id="auditoriaForm">
+    <h2>Registro de Auditoria</h2>
 
-    <form id="briefForm" onsubmit="return false;">
-      <div class="field">
-        <label class="section">Nome completo</label>
-        <input type="text" id="nome" placeholder="Nome do cliente" required>
-      </div>
+    <label>Produto:</label>
+    <input type="text" name="produto" required>
 
-      <div class="row">
-        <div class="field">
-          <label class="section">E-mail</label>
-          <input type="email" id="email" placeholder="cliente@exemplo.com" required>
-          <div class="small">Usaremos para contato do cliente (não enviaremos spam).</div>
-        </div>
-        <div class="field">
-          <label class="section">Telefone / WhatsApp</label>
-          <input type="text" id="telefone" placeholder="(XX) 9XXXX-XXXX">
-        </div>
-      </div>
+    <label>Código:</label>
+    <input type="text" name="codigo" required>
 
-      <div class="field">
-        <label class="section">1. Objetivo do ambiente</label>
-        <div class="options" id="objetivo">
-          <label class="option"><input type="radio" name="objetivo" value="aconchego" checked> Aconchego / conforto</label>
-          <label class="option"><input type="radio" name="objetivo" value="ostentacao"> Ostentação / luxo</label>
-          <label class="option"><input type="radio" name="objetivo" value="praticidade"> Praticidade / funcionalidade</label>
-          <label class="option"><input type="radio" name="objetivo" value="criatividade"> Criatividade / personalidade</label>
-        </div>
-      </div>
+    <label>Fornecedor:</label>
+    <input type="text" name="fornecedor" required>
 
-      <div class="field">
-        <label class="section">2. Estilo desejado</label>
-        <div class="options" id="estilo">
-          <label class="option"><input type="checkbox" value="moderno"> Moderno / contemporâneo</label>
-          <label class="option"><input type="checkbox" value="classico"> Clássico / elegante</label>
-          <label class="option"><input type="checkbox" value="industrial"> Industrial / urbano</label>
-          <label class="option"><input type="checkbox" value="boho"> Boho / descontraído</label>
-        </div>
-        <div class="small">Selecione até 2 estilos preferidos.</div>
-      </div>
+    <label>Defeito encontrado:</label>
+    <input type="text" name="defeito" required>
 
-      <div class="field">
-        <label class="section">3. Paleta de cores (gosta / evitar)</label>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <select id="cores" multiple style="min-height:44px;padding:10px;border-radius:8px;border:1px solid #eef3f8">
-            <option>Branco</option>
-            <option>Bege</option>
-            <option>Cinza</option>
-            <option>Amarelo</option>
-            <option>Vermelho</option>
-            <option>Azul</option>
-            <option>Verde</option>
-            <option>Preto</option>
-            <option>Azul-marinho</option>
-          </select>
-          <input placeholder="Cores que deseja evitar (opcional)" id="cores_evitar" style="flex:1;padding:10px;border-radius:8px;border:1px solid #eef3f8">
-        </div>
-      </div>
+    <label>Responsável:</label>
+    <input type="text" name="responsavel">
 
-      <div class="field">
-        <label class="section">4. Materiais e texturas</label>
-        <div class="options">
-          <label class="option"><input type="checkbox" value="madeira"> Madeira / fibras naturais</label>
-          <label class="option"><input type="checkbox" value="vidro_marmore"> Vidro / mármore / metal</label>
-          <label class="option"><input type="checkbox" value="tecidos"> Tecidos macios (veludo, linho)</label>
-          <label class="option"><input type="checkbox" value="resistente"> Materiais fáceis de limpar</label>
-        </div>
-      </div>
+    <label>Observações:</label>
+    <textarea name="observacoes"></textarea>
 
-      <div class="field">
-        <label class="section">5. Estilo de vida e uso</label>
-        <div class="options">
-          <label class="option"><input type="checkbox" value="recebe"> Recebe muitas visitas</label>
-          <label class="option"><input type="checkbox" value="homeoffice"> Trabalha em casa</label>
-          <label class="option"><input type="checkbox" value="hobby"> Hobbies / coleções</label>
-          <label class="option"><input type="checkbox" value="pets"> Tem pets / crianças</label>
-        </div>
-      </div>
+    <button type="submit">Enviar</button>
+  </form>
 
-      <div class="row">
-        <div class="field">
-          <label class="section">6. Orçamento aproximado</label>
-          <select id="orcamento">
-            <option value="alto">Alto (investimento em luxo)</option>
-            <option value="medio">Médio (equilíbrio custo/qualidade)</option>
-            <option value="baixo">Baixo (prioridade funcionalidade)</option>
-          </select>
-        </div>
-        <div class="field">
-          <label class="section">Prioridade principal</label>
-          <select id="prioridade">
-            <option>Conforto</option>
-            <option>Estética / ostentação</option>
-            <option>Funcionalidade</option>
-            <option>Prazo</option>
-          </select>
-        </div>
-      </div>
+  <script>
+    const form = document.getElementById("auditoriaForm");
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
 
-      <div class="field">
-        <label class="section">7. Preferência por móveis</label>
-        <div class="options">
-          <label class="option"><input type="radio" name="moveis" value="planejados" checked> Planejados / sob medida</label>
-          <label class="option"><input type="radio" name="moveis" value="prontos"> Móveis prontos</label>
-          <label class="option"><input type="radio" name="moveis" value="mix"> Mix dos dois</label>
-        </div>
-      </div>
+      const data = Object.fromEntries(new FormData(form).entries());
 
-      <div class="field">
-        <label class="section">8. Iluminação</label>
-        <div class="options">
-          <label class="option"><input type="radio" name="luz" value="claro" checked> Ambientes claros / natural</label>
-          <label class="option"><input type="radio" name="luz" value="intimista"> Intimista / luz indireta</label>
-          <label class="option"><input type="radio" name="luz" value="combinacao"> Combinação</label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="section">9. Extras / Observações</label>
-        <textarea id="extras" placeholder="Deseja arte, plantas, automação, algo especial?"></textarea>
-      </div>
-
-      <div class="controls">
-        <button class="btn btn-primary" id="btnResumo" type="button">Gerar resumo & orçamento rápido</button>
-        <button class="btn btn-ghost" id="btnPDF" type="button">Baixar PDF</button>
-        <button class="btn" id="btnEmail" type="button" style="background:transparent;border:1px dashed var(--navy);color:var(--navy)">Enviar por e-mail</button>
-        <div style="flex:1"></div>
-      </div>
-    </form>
-
-    <aside class="panel">
-      <div class="summary" id="summaryArea">
-        <h3>Resumo / Gabarito</h3>
-        <div id="summaryContent"><div class="small">Preencha o formulário e clique em "Gerar resumo & orçamento rápido".</div></div>
-      </div>
-
-      <hr style="margin:14px 0;border:none;border-top:1px solid #f0f3f8">
-
-      <div style="font-size:13px;color:var(--muted);">
-        <strong>Uso:</strong> Gere o resumo, baixe o PDF e envie por e-mail. <br>
-        <strong>Envio automático:</strong> para envio sem abrir o cliente de e-mail, integre um serviço como Formspree ou EmailJS (veja comentário no código).
-      </div>
-
-      <div style="margin-top:12px">
-        <div class="chip">Profissional</div>
-        <div class="chip">Minimal</div>
-        <div class="chip">Objetivo</div>
-      </div>
-    </aside>
-
-    <footer>© Gustavo Alves Design — Formulário de briefing objetivo</footer>
-  </div>
-
-<script>
-const targetEmail = "gustavoalvesdesign@gmail.com"; // <-- altere aqui se quiser outro e-mail
-
-function getValue(id){ return document.getElementById(id).value.trim(); }
-
-function getCheckedValues(containerId, type='checkbox'){
-  const container = document.getElementById(containerId) || document;
-  const inputs = container.querySelectorAll(type === 'checkbox' ? 'input[type="checkbox"]' : 'input[type="radio"]:checked');
-  const out = [];
-  inputs.forEach(i=>{
-    if(i.checked) out.push(i.value || i.nextSibling?.textContent?.trim());
-  });
-  return out;
-}
-
-function getRadioValue(name){
-  const r = document.querySelector('input[name="'+name+'"]:checked');
-  return r ? r.value : '';
-}
-
-function generateInterpretation(data){
-  // Gabarito objetivo (resumo curto e direto)
-  const lines = [];
-  lines.push("Cliente: " + data.nome);
-  lines.push("Contato: " + (data.email || '-') + (data.telefone ? " | " + data.telefone : ""));
-  lines.push("");
-  lines.push("-> Objetivo principal: " + data.objetivo);
-  lines.push("-> Estilos preferidos: " + (data.estilos.length ? data.estilos.join(', ') : "Não especificado"));
-  lines.push("-> Paleta preferida: " + (data.cores.length ? data.cores.join(', ') : "Não especificado"));
-  lines.push("-> Materiais: " + (data.materiais.length ? data.materiais.join(', ') : "Não especificado"));
-  lines.push("-> Uso / Vida: " + (data.uso.length ? data.uso.join(', ') : "Não especificado"));
-  lines.push("-> Orçamento: " + data.orcamento + " | Prioridade: " + data.prioridade);
-  lines.push("-> Móveis: " + data.moveis + " | Iluminação: " + data.luz);
-  if(data.extras) lines.push("-> Extras / Observações: " + data.extras);
-  lines.push("");
-  // Recomendações rápidas com base no objetivo + orçamento
-  lines.push("Recomendações rápidas:");
-  if(data.objetivo === "aconchego"){
-    lines.push("- Priorizar texturas (veludo, tapetes), iluminação indireta e tons quentes; escolher móveis que convidem à permanência.");
-  } else if(data.objetivo === "ostentacao"){
-    lines.push("- Materiais nobres (mármore, metais), contraste com azul-marinho/preto; iluminação de destaque e peças de design.");
-  } else if(data.objetivo === "praticidade"){
-    lines.push("- Priorizar móveis modulados, superfícies fáceis de limpar e soluções de armazenamento inteligente.");
-  } else if(data.objetivo === "criatividade"){
-    lines.push("- Mistura de texturas e cores pontuais; objetos de design e iluminação cênica para identidade.");
-  }
-  // Ajuste por orçamento
-  if(data.orcamento === "alto"){
-    lines.push("- Orçamento: pode investir em materiais premium e mobiliário assinado.");
-  } else if(data.orcamento === "medio"){
-    lines.push("- Orçamento: combinar planejados em pontos estratégicos + mobiliário selecionado.");
-  } else {
-    lines.push("- Orçamento: foco em soluções funcionais, móveis prontos com bom custo-benefício e bom aproveitamento de espaço.");
-  }
-  // Estilo + objetivo cross
-  if(data.estilos.includes("moderno") && data.objetivo === "ostentacao"){
-    lines.push("- Sugestão estética: moderno + luxo = linhas limpas com materiais ricos (laca, vidro, metais escuros).");
-  }
-  return lines.join("\\n");
-}
-
-function renderSummary(text){
-  const el = document.getElementById('summaryContent');
-  el.innerHTML = '';
-  const pre = document.createElement('pre');
-  pre.style.whiteSpace = 'pre-wrap';
-  pre.style.fontFamily = 'Inter, system-ui, -apple-system, "Segoe UI"';
-  pre.textContent = text;
-  el.appendChild(pre);
-}
-
-document.getElementById('btnResumo').addEventListener('click', ()=>{
-  const data = {
-    nome: getValue('nome'),
-    email: getValue('email'),
-    telefone: getValue('telefone'),
-    objetivo: getRadioValue('objetivo') || 'Não informado',
-    estilos: Array.from(document.querySelectorAll('#estilo input[type="checkbox"]:checked')).map(i=>i.nextSibling?i.value:i.value || i.parentNode.textContent.trim()),
-    cores: Array.from(document.getElementById('cores').selectedOptions).map(o=>o.value),
-    materiais: Array.from(document.querySelectorAll('input[type="checkbox"]')).filter(i=>i.parentNode && i.parentNode.parentNode && i.parentNode.parentNode.id==='').map(i=>i.value),
-    uso: Array.from(document.querySelectorAll('#briefForm input[type="checkbox"]:checked')).map(i=>i.value).filter((v,idx,arr)=>arr.indexOf(v)===idx),
-    orcamento: getValue('orcamento'),
-    prioridade: getValue('prioridade'),
-    moveis: getRadioValue('moveis'),
-    luz: getRadioValue('luz'),
-    extras: getValue('extras')
-  };
-
-  // Some cleanup for estilos (limit to two)
-  if(data.estilos.length > 2) data.estilos = data.estilos.slice(0,2);
-
-  const resumo = generateInterpretation(data);
-  renderSummary(resumo);
-  // save a copy for PDF / email
-  window._lastReport = {data,resumo};
-});
-
-async function generatePDF(){
-  const content = document.querySelector('.wrap');
-  // Use html2canvas + jsPDF
-  const canvas = await html2canvas(content, {scale:1.6, useCORS:true});
-  const img = canvas.toDataURL('image/png');
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF({orientation:'portrait',unit:'px',format:[canvas.width, canvas.height]});
-  pdf.addImage(img, 'PNG', 0, 0, canvas.width, canvas.height);
-  const filename = (document.getElementById('nome').value || 'relatorio') + '_briefing.pdf';
-  pdf.save(filename);
-}
-
-document.getElementById('btnPDF').addEventListener('click', async ()=>{
-  // Ensure we have a summary
-  if(!window._lastReport) {
-    document.getElementById('btnResumo').click();
-  }
-  document.getElementById('btnPDF').disabled = true;
-  document.getElementById('btnPDF').textContent = 'Gerando PDF...';
-  try{
-    await generatePDF();
-  }catch(e){
-    alert('Erro ao gerar PDF: ' + e.message);
-  } finally{
-    document.getElementById('btnPDF').disabled = false;
-    document.getElementById('btnPDF').textContent = 'Baixar PDF';
-  }
-});
-
-document.getElementById('btnEmail').addEventListener('click', ()=>{
-  if(!window._lastReport) document.getElementById('btnResumo').click();
-  const resumo = (window._lastReport && window._lastReport.resumo) ? window._lastReport.resumo : 'Sem resumo gerado.';
-  // mailto: prefill. Note: mailto has length limits depending on client.
-  const subject = encodeURIComponent('Novo briefing - ' + (getValue('nome') || 'cliente'));
-  // shorten lines to avoid mailto too long: keep main recommendations
-  const body = encodeURIComponent(resumo);
-  const mailto = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
-  window.location.href = mailto;
-});
-
-/*
-  NOTAS SOBRE ENVIO AUTOMÁTICO:
-  - O botão "Enviar por e-mail" usa mailto: e abre o cliente de e-mail local.
-  - Se você deseja envio automático sem depender do cliente do usuário, integre um serviço:
-    • Formspree (fácil): https://formspree.io — configure um endpoint e altere <form action="..."> para apontar ao endpoint.
-    • EmailJS (cliente-side): https://www.emailjs.com — permite enviar e-mails via JS (requer criar conta e usar userID/templateID).
-  - Se quiser, posso adaptar esse arquivo para integrar Formspree ou EmailJS (vou incluir o código pronto e instruções de configuração).
-*/
-
-</script>
+      fetch("https://script.google.com/macros/s/AKfycbzyBsplZLpzEIr7SHw7fhEyZ-TxHEa4jMQ3KEAMQc23GK3SgOghTeYGkISCXBEYdXSchA/exec", {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+      .then(res => res.text())
+      .then(txt => alert("Registro enviado com sucesso!"))
+      .catch(err => alert("Erro ao enviar: " + err));
+    });
+  </script>
 </body>
 </html>
+
