@@ -18,8 +18,9 @@
       width: 400px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
+    h2 { text-align: center; }
     label { font-weight: bold; display: block; margin-top: 10px; }
-    input, select, textarea {
+    input, select {
       width: 100%; padding: 8px; margin-top: 5px;
       border: 1px solid #ccc; border-radius: 5px;
     }
@@ -31,49 +32,75 @@
       width: 100%;
     }
     button:hover { background: #0056b3; }
+    .success {
+      margin-top: 15px;
+      padding: 10px;
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      border-radius: 5px;
+      display: none;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <form id="auditoriaForm">
     <h2>Registro de Auditoria</h2>
 
-    <label>Produto:</label>
-    <input type="text" name="produto" required>
+    <label>Mesa:</label>
+    <input type="text" name="mesa" required>
 
     <label>Código:</label>
     <input type="text" name="codigo" required>
 
-    <label>Fornecedor:</label>
-    <input type="text" name="fornecedor" required>
+    <label>Variação:</label>
+    <input type="text" name="variacao">
 
-    <label>Defeito encontrado:</label>
-    <input type="text" name="defeito" required>
+    <label>Quantidade:</label>
+    <input type="number" name="quantidade" required>
+
+    <label>OR:</label>
+    <input type="text" name="or">
+
+    <label>Status:</label>
+    <select name="status" required>
+      <option value="">Selecione...</option>
+      <option value="Aprovado">Aprovado</option>
+      <option value="Reprovado">Reprovado</option>
+      <option value="Pendente">Pendente</option>
+    </select>
 
     <label>Responsável:</label>
-    <input type="text" name="responsavel">
-
-    <label>Observações:</label>
-    <textarea name="observacoes"></textarea>
+    <input type="text" name="responsavel" required>
 
     <button type="submit">Enviar</button>
+    <div id="msg" class="success">Registro enviado com sucesso!</div>
   </form>
 
   <script>
     const form = document.getElementById("auditoriaForm");
+    const msg = document.getElementById("msg");
+
     form.addEventListener("submit", function(e) {
       e.preventDefault();
 
       const data = Object.fromEntries(new FormData(form).entries());
 
-      fetch("https://script.google.com/macros/s/AKfycbzyBsplZLpzEIr7SHw7fhEyZ-TxHEa4jMQ3KEAMQc23GK3SgOghTeYGkISCXBEYdXSchA/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbxpOUvmn15eMcprLcmrk4eVXg93lXbUq1npMFVYMFpOuHRJvLzvBgSjw6PBenyVIhHJMA/exec", {
         method: "POST",
         body: JSON.stringify(data)
       })
       .then(res => res.text())
-      .then(txt => alert("Registro enviado com sucesso!"))
+      .then(txt => {
+        form.reset(); // limpa os campos
+        msg.style.display = "block"; // mostra aviso de sucesso
+        setTimeout(() => msg.style.display = "none", 3000); // some depois de 3s
+      })
       .catch(err => alert("Erro ao enviar: " + err));
     });
   </script>
 </body>
 </html>
+
 
