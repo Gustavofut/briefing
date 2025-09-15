@@ -15,7 +15,7 @@
       background: white;
       padding: 20px;
       border-radius: 10px;
-      width: 400px;
+      width: 420px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     h2 { text-align: center; }
@@ -42,41 +42,73 @@
       display: none;
       text-align: center;
     }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 13px;
+      color: #555;
+    }
   </style>
 </head>
 <body>
-  <form id="auditoriaForm">
-    <h2>Registro de Auditoria</h2>
+  <div>
+    <form id="auditoriaForm">
+      <h2>Registro de Auditoria</h2>
 
-    <label>Mesa:</label>
-    <input type="text" name="mesa" required>
+      <label>OR:</label>
+      <input type="text" name="or" required>
 
-    <label>Código:</label>
-    <input type="text" name="codigo" required>
+      <label>Nota Fiscal:</label>
+      <input type="text" name="notaFiscal" required>
 
-    <label>Variação:</label>
-    <input type="text" name="variacao">
+      <label>Produto:</label>
+      <input type="text" name="produto" required>
 
-    <label>Quantidade:</label>
-    <input type="number" name="quantidade" required>
+      <label>Fornecedor:</label>
+      <input type="text" name="fornecedor" required>
 
-    <label>OR:</label>
-    <input type="text" name="or">
+      <label>Marca:</label>
+      <input type="text" name="marca">
 
-    <label>Status:</label>
-    <select name="status" required>
-      <option value="">Selecione...</option>
-      <option value="Aprovado">Aprovado</option>
-      <option value="Reprovado">Reprovado</option>
-      <option value="Pendente">Pendente</option>
-    </select>
+      <label>Tipo de Avaria:</label>
+      <select name="tipoAvaria" required>
+        <option value="">Selecione...</option>
+        <option value="MANCHA">MANCHA</option>
+        <option value="MOFO">MOFO</option>
+        <option value="RASGO">RASGO</option>
+        <option value="DESCOSTURA">DESCOSTURA</option>
+        <option value="EXCESSO DE COLA">EXCESSO DE COLA</option>
+        <option value="SOLADO DANIFICADO">SOLADO DANIFICADO</option>
+        <option value="DIVERGENCIA DE TAMANHO">DIVERGENCIA DE TAMANHO</option>
+        <option value="DIVERGENCIA DE MODELO">DIVERGENCIA DE MODELO</option>
+        <option value="LOGO DANIFICADO">LOGO DANIFICADO</option>
+        <option value="FALTA">FALTA</option>
+        <option value="VALIDADE">VALIDADE</option>
+      </select>
 
-    <label>Responsável:</label>
-    <input type="text" name="responsavel" required>
+      <label>Responsável:</label>
+      <input type="text" name="responsavel" required>
 
-    <button type="submit">Enviar</button>
-    <div id="msg" class="success">Registro enviado com sucesso!</div>
-  </form>
+      <label>Quantidade:</label>
+      <input type="number" name="qntd" required>
+
+      <label>Categoria:</label>
+      <select name="categoria" required>
+        <option value="">Selecione...</option>
+        <option value="CALÇADO">CALÇADO</option>
+        <option value="VESTUARIO">VESTUÁRIO</option>
+        <option value="ACESSORIO">ACESSÓRIO</option>
+        <option value="SUPLEMENTO">SUPLEMENTO</option>
+      </select>
+
+      <button type="submit">Enviar</button>
+      <div id="msg" class="success">Registro enviado com sucesso!</div>
+    </form>
+
+    <footer>
+      Desenvolvido para Controle de Auditoria © 2025
+    </footer>
+  </div>
 
   <script>
     const form = document.getElementById("auditoriaForm");
@@ -87,7 +119,7 @@
 
       const data = Object.fromEntries(new FormData(form).entries());
 
-      fetch("https://script.google.com/macros/s/AKfycbxpOUvmn15eMcprLcmrk4eVXg93lXbUq1npMFVYMFpOuHRJvLzvBgSjw6PBenyVIhHJMA/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbwQQiuMOGyEtwINKaQ7-HtPNJ7ESXQMCqt_4hjL3PSP/dev", {
         method: "POST",
         body: JSON.stringify(data)
       })
