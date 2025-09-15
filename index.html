@@ -2,192 +2,135 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Registro de Avaria</title>
+  <title>Formulário de Auditoria</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      background: #f4f6f8;
       display: flex;
       justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      padding: 40px;
     }
-
-    .container {
+    form {
       background: white;
-      padding: 20px 40px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      max-width: 600px;
-      width: 100%;
+      padding: 20px;
+      border-radius: 10px;
+      width: 420px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-
-    h1 {
-      text-align: center;
-      background: #1f3c73;
-      color: white;
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      background: #1f3c73;
-      color: white;
-      padding: 6px;
-      border-radius: 4px;
-      margin-bottom: 5px;
-    }
-
+    h2 { text-align: center; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
     input, select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
+      width: 100%; padding: 8px; margin-top: 5px;
+      border: 1px solid #ccc; border-radius: 5px;
     }
-
     button {
-      background: #1f3c73;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 6px;
-      font-size: 16px;
+      margin-top: 20px;
+      background: #007BFF; color: white;
+      padding: 10px; border: none; border-radius: 5px;
       cursor: pointer;
       width: 100%;
-      margin-top: 10px;
     }
-
-    button:hover {
-      background: #2c4d91;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 15px;
-      font-size: 12px;
-      color: #555;
-    }
-
+    button:hover { background: #0056b3; }
     .success {
-      color: green;
+      margin-top: 15px;
+      padding: 10px;
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      border-radius: 5px;
+      display: none;
       text-align: center;
-      font-weight: bold;
-      margin-top: 10px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 13px;
+      color: #555;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>REGISTRO DE AVARIA</h1>
-    <form id="avariaForm">
-      <div class="form-group">
-        <label for="or">OR:</label>
-        <input type="text" id="or" name="or" required>
-      </div>
-      <div class="form-group">
-        <label for="notaFiscal">Nota Fiscal:</label>
-        <input type="text" id="notaFiscal" name="notaFiscal" required>
-      </div>
-      <div class="form-group">
-        <label for="codigo">Código:</label>
-        <input type="text" id="codigo" name="codigo" required>
-      </div>
-      <div class="form-group">
-        <label for="fornecedor">Fornecedor:</label>
-        <input type="text" id="fornecedor" name="fornecedor" required>
-      </div>
-      <div class="form-group">
-        <label for="marca">Marca:</label>
-        <input type="text" id="marca" name="marca" required>
-      </div>
-      <div class="form-group">
-        <label for="tipoAvaria">Motivo Avaria:</label>
-        <select id="tipoAvaria" name="tipoAvaria" required>
-          <option value="">Selecione...</option>
-          <option>MANCHA</option>
-          <option>MOFO</option>
-          <option>RASGO</option>
-          <option>DESCOSTURA</option>
-          <option>EXCESSO DE COLA</option>
-          <option>SOLADO DANIFICADO</option>
-          <option>DIVERGÊNCIA DE TAMANHO</option>
-          <option>DIVERGÊNCIA DE MODELO</option>
-          <option>LOGO DANIFICADO</option>
-          <option>FALTA</option>
-          <option>VALIDADE</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="qtd">Quantidade:</label>
-        <input type="number" id="qtd" name="qtd" required>
-      </div>
-      <div class="form-group">
-        <label for="categoria">Categoria:</label>
-        <select id="categoria" name="categoria" required>
-          <option value="">Selecione...</option>
-          <option>CALÇADO</option>
-          <option>VESTUÁRIO</option>
-          <option>ACESSÓRIO</option>
-          <option>SUPLEMENTO</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="responsavel">Responsável:</label>
-        <input type="text" id="responsavel" name="responsavel" required>
-      </div>
+  <div>
+    <form id="auditoriaForm">
+      <h2>Registro de Auditoria</h2>
+
+      <label>OR:</label>
+      <input type="text" name="or" required>
+
+      <label>Nota Fiscal:</label>
+      <input type="text" name="notaFiscal" required>
+
+      <label>Produto:</label>
+      <input type="text" name="produto" required>
+
+      <label>Fornecedor:</label>
+      <input type="text" name="fornecedor" required>
+
+      <label>Marca:</label>
+      <input type="text" name="marca">
+
+      <label>Tipo de Avaria:</label>
+      <select name="tipoAvaria" required>
+        <option value="">Selecione...</option>
+        <option value="MANCHA">MANCHA</option>
+        <option value="MOFO">MOFO</option>
+        <option value="RASGO">RASGO</option>
+        <option value="DESCOSTURA">DESCOSTURA</option>
+        <option value="EXCESSO DE COLA">EXCESSO DE COLA</option>
+        <option value="SOLADO DANIFICADO">SOLADO DANIFICADO</option>
+        <option value="DIVERGENCIA DE TAMANHO">DIVERGENCIA DE TAMANHO</option>
+        <option value="DIVERGENCIA DE MODELO">DIVERGENCIA DE MODELO</option>
+        <option value="LOGO DANIFICADO">LOGO DANIFICADO</option>
+        <option value="FALTA">FALTA</option>
+        <option value="VALIDADE">VALIDADE</option>
+      </select>
+
+      <label>Responsável:</label>
+      <input type="text" name="responsavel" required>
+
+      <label>Quantidade:</label>
+      <input type="number" name="qntd" required>
+
+      <label>Categoria:</label>
+      <select name="categoria" required>
+        <option value="">Selecione...</option>
+        <option value="CALÇADO">CALÇADO</option>
+        <option value="VESTUARIO">VESTUÁRIO</option>
+        <option value="ACESSORIO">ACESSÓRIO</option>
+        <option value="SUPLEMENTO">SUPLEMENTO</option>
+      </select>
+
       <button type="submit">Enviar</button>
-      <div class="success" id="successMessage" style="display:none;">✅ Enviado com sucesso!</div>
+      <div id="msg" class="success">Registro enviado com sucesso!</div>
     </form>
-    <div class="footer">
-      © 2025 Futfanatics (Controle de qualidade).
-    </div>
+
+    <footer>
+      Desenvolvido para Controle de Auditoria © 2025
+    </footer>
   </div>
 
   <script>
-    document.getElementById("avariaForm").addEventListener("submit", function(e){
+    const form = document.getElementById("auditoriaForm");
+    const msg = document.getElementById("msg");
+
+    form.addEventListener("submit", function(e) {
       e.preventDefault();
 
-      // 🔹 INSIRA AQUI A URL DO SEU WEB APP (Google Apps Script publicado)
-      const url = "https://script.google.com/macros/s/AKfycbwJSeT9onyqZ-U_HKP-UQyTJTQ5IR9t0RCKQgLj8aHFzkriIfB7Mx1npMcLT3dgH7ZmVw/exec";
+      const data = Object.fromEntries(new FormData(form).entries());
 
-      const formData = {
-        or: document.getElementById("or").value,
-        notaFiscal: document.getElementById("notaFiscal").value,
-        codigo: document.getElementById("codigo").value,
-        fornecedor: document.getElementById("fornecedor").value,
-        marca: document.getElementById("marca").value,
-        tipoAvaria: document.getElementById("tipoAvaria").value,
-        qtd: document.getElementById("qtd").value,
-        categoria: document.getElementById("categoria").value,
-        responsavel: document.getElementById("responsavel").value
-      };
-
-      fetch(url, {
+      fetch("https://script.google.com/macros/s/AKfycbxaGwWwTlJ7wBMIjxHUI55XnbCR_KYg0DOOLf10u3SrbWyMK8kI-Xtpv_3HMADeZXYvhA/exec", {
         method: "POST",
-        body: JSON.stringify(formData),
-        headers: { "Content-Type": "application/json" }
+        body: JSON.stringify(data)
       })
-      .then(r => r.json())
-      .then(response => {
-        if(response.status === "success"){
-          document.getElementById("successMessage").style.display = "block";
-          document.getElementById("avariaForm").reset();
-        } else {
-          alert("Erro ao enviar: " + response.message);
-        }
+      .then(res => res.text())
+      .then(txt => {
+        form.reset(); // limpa os campos
+        msg.style.display = "block"; // mostra aviso de sucesso
+        setTimeout(() => msg.style.display = "none", 3000); // some depois de 3s
       })
-      .catch(err => alert("Erro: " + err));
+      .catch(err => alert("Erro ao enviar: " + err));
     });
   </script>
 </body>
 </html>
-
-
