@@ -55,6 +55,13 @@
     <form id="auditoriaForm">
       <h2>REGISTRO DE AVARIA</h2>
 
+      <div style="background: #eef2f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #d1d8dd;">
+        <label style="margin-top: 0; display: flex; align-items: center; font-weight: normal; cursor: pointer; font-size: 14px;">
+          <input type="checkbox" id="fixarCabecalho" style="width: auto; margin-top: 0; margin-right: 8px; cursor: pointer;">
+          <b>Fixar Cabeçalho</b>&nbsp;(Nota, OR, Fornecedor e Marca)
+        </label>
+      </div>
+
       <label>NOTA FISCAL</label>
       <input type="text" name="or" required>
 
@@ -132,7 +139,25 @@
       })
       .then(res => res.text())
       .then(txt => {
-        form.reset(); // limpa os campos
+        // --- UPGRADE: Captura se a caixa está marcada e os valores atuais ---
+        const isFixed = document.getElementById("fixarCabecalho").checked;
+        const valOr = form.elements['or'].value;
+        const valNotaFiscal = form.elements['notaFiscal'].value;
+        const valFornecedor = form.elements['fornecedor'].value;
+        const valMarca = form.elements['marca'].value;
+
+        form.reset(); // limpa todos os campos
+
+        // --- UPGRADE: Se estava marcada, devolve os valores e foca no Produto ---
+        if (isFixed) {
+          document.getElementById("fixarCabecalho").checked = true;
+          form.elements['or'].value = valOr;
+          form.elements['notaFiscal'].value = valNotaFiscal;
+          form.elements['fornecedor'].value = valFornecedor;
+          form.elements['marca'].value = valMarca;
+          form.elements['produto'].focus(); // Joga o cursor para o campo COD+VARIAÇÃO
+        }
+
         msg.style.display = "block"; // mostra aviso de sucesso
         setTimeout(() => msg.style.display = "none", 3000); // some depois de 3s
       })
@@ -141,35 +166,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
