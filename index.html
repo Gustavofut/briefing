@@ -17,8 +17,21 @@
       border-radius: 20px;
       width: 450px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: relative; /* Para posicionar o contador */
     }
     h2 { text-align: center; }
+    /* Estilo do Contador de Sessão */
+    .session-counter {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: #4f46e5;
+      color: white;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
     label { font-weight: bold; display: block; margin-top: 10px; }
     input, select {
       width: 100%; padding: 10px; margin-top: 5px;
@@ -53,6 +66,8 @@
 <body>
   <div>
     <form id="auditoriaForm">
+      <div class="session-counter">Registros: <span id="count">0</span></div>
+      
       <h2>REGISTRO DE AVARIA</h2>
 
       <div style="background: #eef2f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #d1d8dd;">
@@ -72,17 +87,39 @@
       <input type="text" name="produto" required>
 
       <label>FORNECEDOR</label>
-      <input type="text" name="fornecedor" required>
+      <input type="text" name="fornecedor" required list="fornecedoresLista">
+      <datalist id="fornecedoresLista">
+        <option value="ADIDAS DO BRASIL LTDA">
+        <option value="NIKE DO BRASIL">
+        <option value="PUMA SPORTS">
+        <option value="ALPARGATAS S.A.">
+        <option value="DASS NORDESTE">
+        <option value="ASICS BRASIL">
+      </datalist>
 
       <label>MARCA</label>
-      <input type="text" name="marca">
+      <input type="text" name="marca" list="marcasLista">
+      <datalist id="marcasLista">
+        <option value="NIKE">
+        <option value="ADIDAS">
+        <option value="PUMA">
+        <option value="MIZUNO">
+        <option value="ASICS">
+        <option value="UMBRO">
+        <option value="FILA">
+        <option value="REEBOK">
+        <option value="UNDER ARMOUR">
+        <option value="NEW BALANCE">
+        <option value="OAKLEY">
+        <option value="CONVERSE">
+      </datalist>
 
       <label>TIPO DE AVARIA</label>
       <select name="tipoAvaria" required>
         <option value="">Selecione...</option>
         <option value="MANCHA">MANCHA</option>
         <option value="DIVERGÊNCIA DE COR">DIVERGÊNCIA DE COR</option>
-        <option value="DIVERGÊNCIA DE COR">DIVERGÊNCIA DE MEDIDAS</option>
+        <option value="DIVERGÊNCIA DE MEDIDAS">DIVERGÊNCIA DE MEDIDAS</option>
         <option value="MOFO">MOFO</option>
         <option value="RASGO">RASGO</option>
         <option value="DESCOSTURA">DESCOSTURA</option>
@@ -95,8 +132,8 @@
         <option value="DIVERGÊNCIA DE MODELO">DIVERGÊNCIA DE MODELO</option>
         <option value="LOGO DANIFICADO">LOGO DANIFICADO</option>
         <option value="FALTA">FALTA</option>
-          <option value="QUEBRADO">QUEBRADO</option>
-          <option value="RISCADO">RISCADO</option>
+        <option value="QUEBRADO">QUEBRADO</option>
+        <option value="RISCADO">RISCADO</option>
         <option value="VALIDADE">VALIDADE</option>
       </select>
 
@@ -127,6 +164,8 @@
   <script>
     const form = document.getElementById("auditoriaForm");
     const msg = document.getElementById("msg");
+    const countDisplay = document.getElementById("count");
+    let sessionCount = 0;
 
     form.addEventListener("submit", function(e) {
       e.preventDefault();
@@ -139,12 +178,17 @@
       })
       .then(res => res.text())
       .then(txt => {
+        // Incrementa o contador da sessão
+        sessionCount++;
+        countDisplay.textContent = sessionCount;
+
         // --- UPGRADE: Captura se a caixa está marcada e os valores atuais ---
         const isFixed = document.getElementById("fixarCabecalho").checked;
         const valOr = form.elements['or'].value;
         const valNotaFiscal = form.elements['notaFiscal'].value;
         const valFornecedor = form.elements['fornecedor'].value;
         const valMarca = form.elements['marca'].value;
+        const valResponsavel = form.elements['responsavel'].value; // Extra: Mantendo o responsável
 
         form.reset(); // limpa todos os campos
 
@@ -155,6 +199,7 @@
           form.elements['notaFiscal'].value = valNotaFiscal;
           form.elements['fornecedor'].value = valFornecedor;
           form.elements['marca'].value = valMarca;
+          form.elements['responsavel'].value = valResponsavel; // Mantém o nome de quem está enviando
           form.elements['produto'].focus(); // Joga o cursor para o campo COD+VARIAÇÃO
         }
 
