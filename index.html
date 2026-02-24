@@ -4,23 +4,32 @@
   <meta charset="UTF-8">
   <title>REGISTRO DE AVARIA</title>
   <style>
+    /* Trava o scroll e garante centralização total */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden; 
+    }
     body {
       font-family: Arial, sans-serif;
       background: #f4f6f8;
       display: flex;
+      align-items: center;
       justify-content: center;
-      padding: 40px;
     }
     form {
       background: white;
-      padding: 40px;
+      padding: 25px 40px; /* Reduzi levemente o padding superior/inferior */
       border-radius: 20px;
       width: 450px;
+      max-height: 95vh; /* Garante que o form não estoure a altura da tela */
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      position: relative; /* Para posicionar o contador */
+      position: relative;
+      box-sizing: border-box;
     }
-    h2 { text-align: center; }
-    /* Estilo do Contador de Sessão */
+    h2 { text-align: center; margin-top: 5px; margin-bottom: 15px; }
+    
     .session-counter {
       position: absolute;
       top: 15px;
@@ -32,33 +41,39 @@
       border-radius: 10px;
       font-weight: bold;
     }
-    label { font-weight: bold; display: block; margin-top: 10px; }
+    label { font-weight: bold; display: block; margin-top: 8px; font-size: 14px; }
     input, select {
-      width: 100%; padding: 10px; margin-top: 5px;
+      width: 100%; padding: 8px; margin-top: 4px;
       border: 2px solid #ccc; border-radius: 3px;
+      text-transform: uppercase;
+      box-sizing: border-box;
     }
     button {
-      margin-top: 20px;
+      margin-top: 15px;
       background: #007BFF; color: white;
-      padding: 10px; border: none; border-radius: 3px;
+      padding: 12px; border: none; border-radius: 3px;
       cursor: pointer;
       width: 100%;
+      font-weight: bold;
     }
     button:hover { background: #0056b3; }
     .success {
-      margin-top: 15px;
-      padding: 10px;
+      margin-top: 10px;
+      padding: 8px;
       background: #d4edda;
       color: #155724;
       border: 1px solid #c3e6cb;
       border-radius: 3px;
       display: none;
       text-align: center;
+      font-size: 14px;
     }
     footer {
+      position: absolute;
+      bottom: 15px;
+      width: 100%;
       text-align: center;
-      margin-top: 30px;
-      font-size: 13px;
+      font-size: 12px;
       color: #555;
     }
   </style>
@@ -70,8 +85,8 @@
       
       <h2>REGISTRO DE AVARIA</h2>
 
-      <div style="background: #eef2f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #d1d8dd;">
-        <label style="margin-top: 0; display: flex; align-items: center; font-weight: normal; cursor: pointer; font-size: 14px;">
+      <div style="background: #eef2f5; padding: 10px; border-radius: 5px; margin-bottom: 10px; border: 1px solid #d1d8dd;">
+        <label style="margin-top: 0; display: flex; align-items: center; font-weight: normal; cursor: pointer; font-size: 13px;">
           <input type="checkbox" id="fixarCabecalho" style="width: auto; margin-top: 0; margin-right: 8px; cursor: pointer;">
           <b>Fixar Cabeçalho</b>&nbsp;(Nota, OR, Fornecedor e Marca)
         </label>
@@ -140,17 +155,22 @@
       <label>RESPONSÁVEL</label>
       <input type="text" name="responsavel" required>
 
-      <label>QUANTIDADE</label>
-      <input type="number" name="qntd" required>
-
-      <label>CATEGORIA</label>
-      <select name="categoria" required>
-        <option value="">Selecione...</option>
-        <option value="CALÇADO">CALÇADO</option>
-        <option value="VESTUARIO">VESTUÁRIO</option>
-        <option value="ACESSORIO">ACESSÓRIO</option>
-        <option value="SUPLEMENTO">SUPLEMENTO</option>
-      </select>
+      <div style="display: flex; gap: 10px;">
+        <div style="flex: 1;">
+          <label>QUANTIDADE</label>
+          <input type="number" name="qntd" required>
+        </div>
+        <div style="flex: 1;">
+          <label>CATEGORIA</label>
+          <select name="categoria" required>
+            <option value="">Seletor...</option>
+            <option value="CALÇADO">CALÇADO</option>
+            <option value="VESTUARIO">VESTUÁRIO</option>
+            <option value="ACESSORIO">ACESSÓRIO</option>
+            <option value="SUPLEMENTO">SUPLEMENTO</option>
+          </select>
+        </div>
+      </div>
 
       <button type="submit">Enviar</button>
       <div id="msg" class="success">Registro enviado com sucesso!</div>
@@ -170,7 +190,17 @@
     form.addEventListener("submit", function(e) {
       e.preventDefault();
 
-      const data = Object.fromEntries(new FormData(form).entries());
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      for (let key in data) {
+        if (typeof data[key] === 'string' && key !== 'tipoAvaria' && key !== 'categoria') {
+          data[key] = data[key].toUpperCase().trim();
+        }
+      }
+
+      const agora = new Date();
+      data.timestamp = agora.toLocaleString('pt-BR');
 
       fetch("https://script.google.com/macros/s/AKfycbzb-R_dC-hx7jEC6LPZzJ791I5o1LPEYU9VD5lgrnHqf0RH_6m613hQqRiCzUK_T_C3/exec", {
         method: "POST",
@@ -178,33 +208,30 @@
       })
       .then(res => res.text())
       .then(txt => {
-        // Incrementa o contador da sessão
         sessionCount++;
         countDisplay.textContent = sessionCount;
 
-        // --- UPGRADE: Captura se a caixa está marcada e os valores atuais ---
         const isFixed = document.getElementById("fixarCabecalho").checked;
-        const valOr = form.elements['or'].value;
-        const valNotaFiscal = form.elements['notaFiscal'].value;
-        const valFornecedor = form.elements['fornecedor'].value;
-        const valMarca = form.elements['marca'].value;
-        const valResponsavel = form.elements['responsavel'].value; // Extra: Mantendo o responsável
+        const valOr = data.or;
+        const valNotaFiscal = data.notaFiscal;
+        const valFornecedor = data.fornecedor;
+        const valMarca = data.marca;
+        const valResponsavel = data.responsavel;
 
-        form.reset(); // limpa todos os campos
+        form.reset();
 
-        // --- UPGRADE: Se estava marcada, devolve os valores e foca no Produto ---
         if (isFixed) {
           document.getElementById("fixarCabecalho").checked = true;
           form.elements['or'].value = valOr;
           form.elements['notaFiscal'].value = valNotaFiscal;
           form.elements['fornecedor'].value = valFornecedor;
           form.elements['marca'].value = valMarca;
-          form.elements['responsavel'].value = valResponsavel; // Mantém o nome de quem está enviando
-          form.elements['produto'].focus(); // Joga o cursor para o campo COD+VARIAÇÃO
+          form.elements['responsavel'].value = valResponsavel;
+          form.elements['produto'].focus();
         }
 
-        msg.style.display = "block"; // mostra aviso de sucesso
-        setTimeout(() => msg.style.display = "none", 3000); // some depois de 3s
+        msg.style.display = "block";
+        setTimeout(() => msg.style.display = "none", 3000);
       })
       .catch(err => alert("Erro ao enviar: " + err));
     });
